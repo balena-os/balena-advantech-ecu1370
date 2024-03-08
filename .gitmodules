@@ -10,3 +10,21 @@
 	path = contracts
 	url = https://github.com/balena-io/contracts.git
 	branch = master
+[submodule "layers/meta-adv-imx"]
+	path = layers/meta-adv-imx
+	url = https://github.com/Advantech-IIoT/meta-adv-imx
+[submodule "layers/meta-freescale"]
+	path = layers/meta-freescale
+	url = https://github.com/Freescale/meta-freescale
+[submodule "layers/meta-freescale-3rdparty"]
+	path = layers/meta-freescale-3rdparty
+	url = https://github.com/Freescale/meta-freescale-3rdparty
+[submodule "layers/meta-freescale-distro"]
+	path = layers/meta-freescale-distro
+	url = https://github.com/Freescale/meta-freescale-distro
+[submodule "layers/poky"]
+	path = layers/poky
+	url = https://git.yoctoproject.org/git/poky
+[submodule "layers/meta-openembedded"]
+	path = layers/meta-openembedded
+	url = https://github.com/openembedded/meta-openembedded
