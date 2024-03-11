@@ -35,7 +35,7 @@ module.exports =
         supportsBlink: false
 
         yocto:
-                machine: 'st-ecu1370'
+                machine: 'imx8mq-ecu1370'
                 image: 'balena-image-flasher'
                 fstype: 'balenaos-img'
                 version: 'yocto-kirkstone'
