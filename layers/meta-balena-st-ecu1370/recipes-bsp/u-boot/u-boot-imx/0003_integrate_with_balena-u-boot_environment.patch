@@ -1,0 +1,86 @@
+Index: git/configs/imx8mq_ecu1370_defconfig
+===================================================================
+--- git.orig/configs/imx8mq_ecu1370_defconfig
++++ git/configs/imx8mq_ecu1370_defconfig
+@@ -8,7 +8,7 @@ CONFIG_SPL_LIBGENERIC_SUPPORT=y
+ CONFIG_SYS_MALLOC_F_LEN=0x2000
+ CONFIG_SYS_MEMTEST_START=0x40000000
+ CONFIG_SYS_MEMTEST_END=0xA0000000
+-CONFIG_ENV_SIZE=0x4000
++CONFIG_ENV_SIZE=0x5000
+ CONFIG_ENV_OFFSET=0x400000
+ CONFIG_SYS_I2C_MXC_I2C1=y
+ CONFIG_SYS_I2C_MXC_I2C2=y
+@@ -75,6 +75,7 @@ CONFIG_CMD_REGULATOR=y
+ CONFIG_CMD_EXT4_WRITE=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_ENV_OVERWRITE=y
++CONFIG_ENV_IS_NOWHERE=y
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+ CONFIG_SYS_MMC_ENV_DEV=1
+Index: git/include/configs/imx8mq_adv.h
+===================================================================
+--- git.orig/include/configs/imx8mq_adv.h
++++ git/include/configs/imx8mq_adv.h
+@@ -11,6 +11,8 @@
+ #include <asm/arch/imx-regs.h>
+ #include "imx_env.h"
+ 
++#include <env_resin.h>
++
+ #define ADV_IMX8_DDR_1G		0x0
+ #define ADV_IMX8_DDR_2G     0x1
+ #define ADV_IMX8_DDR_4G     0x2
+@@ -129,12 +131,12 @@
+ 	"mmcpart=1\0" \
+ 	"mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+-	"mmcargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} root=${mmcroot}\0 " \
+-	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bsp_script};\0" \
++	"mmcargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} ${resin_kernel_root} ${os_cmdline}\0 " \
++	"loadbootscript=fatload mmc ${resin_dev_index}:${resin_root_part} ${loadaddr} ${bsp_script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"source\0" \
+-	"loadimage=load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=load mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdtfile}\0" \
++	"loadimage=load mmc ${resin_dev_index}:${resin_root_part} ${loadaddr} boot/${image}\0" \
++	"loadfdt=load mmc ${resin_dev_index}:${resin_root_part} ${fdt_addr_r} boot/${fdtfile}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+@@ -146,7 +148,7 @@
+ 		"else " \
+ 			"echo wait for boot; " \
+ 		"fi;\0" \
+-    "emmcboot=echo Booting from emmc ...; setenv mmcdev 0; setenv mmcroot /dev/mmcblk0p2 rootwait rw;" \
++	"emmcboot=echo Booting from emmc ...; setenv mmcdev 0; setenv mmcroot ${resin_dev_index}:${resin_root_part} rootwait rw;" \
+ 		"run mmcargs; " \
+ 		"mmc dev ${mmcdev};" \
+ 		"if run loadimage; then " \
+@@ -177,15 +179,17 @@
+ 			"booti; " \
+ 		"fi;\0" \
+ 	"bsp_bootcmd=echo Running BSP bootcmd ...; " \
++			"setenv resin_kernel_load_addr ${loadaddr};" \
++			"run resin_set_kernel_root; run set_os_cmdline; " \
++			"setenv usbdev ${resin_dev_index};" \
++			"setenv usbbootpart ${resin_boot_part};" \
++			"setenv mmcdev ${resin_dev_index};" \
++			"setenv mmcbootpart ${resin_boot_part};" \
+ 			"mmc dev ${mmcdev}; if mmc rescan; then " \
+-			   "if run loadbootscript; then " \
+-				   "run bootscript; " \
+-			   "else " \
+-				   "if run loadimage; then " \
+-					   "run mmcboot; " \
+-				   "else run netboot; " \
+-				   "fi; " \
+-			   "fi; " \
++				"if run loadimage; then " \
++					"run mmcboot; " \
++				"else run netboot; " \
++				"fi; " \
+ 		   "else run emmcboot; fi;"
+ 
+ /* Link Definitions */
