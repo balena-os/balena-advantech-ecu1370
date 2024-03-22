@@ -7,11 +7,13 @@ Index: 1.0-r2/resin-init-flasher
 ===================================================================
 --- 1.0-r2.orig/resin-init-flasher
 +++ 1.0-r2/resin-init-flasher
-@@ -490,7 +490,7 @@ report_progress 100 "Post-Provisioning"
+@@ -490,7 +490,9 @@ report_progress 100 "Post-Provisioning"
  # This is achieved because the shutdown command is not part of the initramfs
  if command -v shutdown; then
      info "Shutting down ..."
 -    shutdown -h now
++    # Turn LP3 on, indicating we finished.
++    gpioset 4 5=1
 +    halt
  elif command -v reboot; then
      info "Rebooting..."

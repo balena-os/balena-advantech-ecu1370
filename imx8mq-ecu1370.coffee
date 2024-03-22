@@ -1,7 +1,7 @@
 deviceTypesCommon = require '@resin.io/device-types/common'
 { networkOptions, commonImg, instructions } = deviceTypesCommon
 
-SWITCH_SD = "Switch SW2 to 1: OFF, 2: ON. Insert SD card and power on the board."
+SWITCH_SD = "Switch SW2 to 1: OFF, 2: ON. Insert SD card and power on the board. Wait for LP3 to turn on, wait 10 seconds and power off the board."
 SWITCH_FLASH = "Switch SW2 to 1: ON, 2: OFF and power on the board."
  
 postProvisioningInstructions = [
