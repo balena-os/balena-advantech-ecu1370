@@ -1,4 +1,26 @@
 - commits:
+    - subject: Update contracts to 8631765cc3b0b4c6fde0941b896dbfb1b8373455
+      hash: 0e131623d4963a4755f188d4322166201abc0fa8
+      body: Update contracts
+      footer:
+        Changelog-entry: Update contracts to 8631765cc3b0b4c6fde0941b896dbfb1b8373455
+        changelog-entry: Update contracts to 8631765cc3b0b4c6fde0941b896dbfb1b8373455
+      author: Self-hosted Renovate Bot
+      nested: []
+    - subject: Add support for Stem's ECU1370.
+      hash: d25717584da0a1d12345e241a09ec2c5e90b5084
+      body: ""
+      footer:
+        Changelog-entry: Add support for Stem's ECU1370.
+        changelog-entry: Add support for Stem's ECU1370.
+        Signed-off-by: Lisandro Pérez Meyer <lpmeyer@ics.com>
+        signed-off-by: Lisandro Pérez Meyer <lpmeyer@ics.com>
+      author: Lisandro Pérez Meyer
+      nested: []
+  version: 5.2.3+rev2
+  title: ""
+  date: 2024-04-03T16:38:25.393Z
+- commits:
     - subject: Update balena-yocto-scripts to 35108dbe920e2b96e976065df205e265d19d86a5
       hash: 435983da0aa4f6f8646400ddedf734652c5757fa
       body: Update balena-yocto-scripts
