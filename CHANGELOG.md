@@ -1,6 +1,11 @@
 # v2.105.10
 ## (2022-10-13)
 
+# v5.2.8+rev1
+## (2024-04-18)
+
+* rename the board's layer [Lisandro Pérez Meyer]
+
 # v5.2.8
 ## (2024-04-17)
 

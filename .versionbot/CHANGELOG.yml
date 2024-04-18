@@ -1,4 +1,19 @@
 - commits:
+    - subject: rename the board's layer
+      hash: dd45571ccb9b7b5b5ef58ae00f499733614ba158
+      body: |
+        It was using an incorrect name.
+      footer:
+        Changelog-Entry: rename the board's layer
+        changelog-entry: rename the board's layer
+        Signed-off-by: Lisandro Pérez Meyer <lpmeyer@ics.com>
+        signed-off-by: Lisandro Pérez Meyer <lpmeyer@ics.com>
+      author: Lisandro Pérez Meyer
+      nested: []
+  version: 5.2.8+rev1
+  title: ""
+  date: 2024-04-18T06:52:53.292Z
+- commits:
     - subject: Update layers/meta-balena to 5d7a7ecfdc69c481e6e762e38e66b8b291a70e32
       hash: 5e73e4387fa8c6823c0adbcb0a95ba9592d8fe40
       body: Update layers/meta-balena
