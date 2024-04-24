@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:append := "${THISDIR}/${PN}"
+FILESEXTRAPATHS:append := ":${THISDIR}/${PN}"
 
 INTERNAL_DEVICE_KERNEL = "mmcblk0"
 
