@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix FILESEXTRAPATHS for resin-init-flasher
+      hash: f7411fb0df74bff5b3c6e780836c18de34bd5c18
+      body: ""
+      footer:
+        Changelog-entry: Fix FILESEXTRAPATHS for resin-init-flasher
+        changelog-entry: Fix FILESEXTRAPATHS for resin-init-flasher
+        Signed-off-by: Florin Sarbu <florin@balena.io>
+        signed-off-by: Florin Sarbu <florin@balena.io>
+      author: Florin Sarbu
+      nested: []
+  version: 5.3.0+rev2
+  title: ""
+  date: 2024-04-24T13:48:41.846Z
+- commits:
     - subject: Update balena-yocto-scripts to 45b33b1ab2a550bd8292e61139c7e1316d75219c
       hash: fe32a665354f1388bf14c77dffc2eb407fd745d5
       body: Update balena-yocto-scripts

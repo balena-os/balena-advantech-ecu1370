@@ -1,6 +1,11 @@
 # v2.105.10
 ## (2022-10-13)
 
+# v5.3.0+rev2
+## (2024-04-24)
+
+* Fix FILESEXTRAPATHS for resin-init-flasher [Florin Sarbu]
+
 # v5.3.0+rev1
 ## (2024-04-24)
 
