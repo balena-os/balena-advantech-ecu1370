@@ -1,0 +1,155 @@
+cmd: exit: Fix return value propagation out of environment scripts
+
+Make sure the 'exit' command as well as 'exit $val' command exits
+from environment scripts immediately and propagates return value
+out of those scripts fully. That means the following behavior is
+expected:
+
+"
+=> setenv foo 'echo bar ; exit 1' ; run foo ; echo $?
+bar
+1
+=> setenv foo 'echo bar ; exit 0' ; run foo ; echo $?
+bar
+0
+=> setenv foo 'echo bar ; exit -2' ; run foo ; echo $?
+bar
+0
+"
+
+As well as the followin behavior:
+
+"
+=> setenv foo 'echo bar ; exit 3 ; echo fail'; run foo; echo $?
+bar
+3
+=> setenv foo 'echo bar ; exit 1 ; echo fail'; run foo; echo $?
+bar
+1
+=> setenv foo 'echo bar ; exit 0 ; echo fail'; run foo; echo $?
+bar
+0
+=> setenv foo 'echo bar ; exit -1 ; echo fail'; run foo; echo $?
+bar
+0
+=> setenv foo 'echo bar ; exit -2 ; echo fail'; run foo; echo $?
+bar
+0
+=> setenv foo 'echo bar ; exit ; echo fail'; run foo; echo $?
+bar
+0
+"
+
+Fixes: 8c4e3b79bd0 ("cmd: exit: Fix return value")
+Signed-off-by: Marek Vasut <marex at denx.de>
+
+Index: git/cmd/exit.c
+===================================================================
+--- git.orig/cmd/exit.c
++++ git/cmd/exit.c
+@@ -10,10 +10,13 @@
+ static int do_exit(struct cmd_tbl *cmdtp, int flag, int argc,
+ 		   char *const argv[])
+ {
++	int r;
++
++	r = 0;
+ 	if (argc > 1)
+-		return dectoul(argv[1], NULL);
++		r = simple_strtoul(argv[1], NULL, 10);
+ 
+-	return 0;
++	return -r - 2;
+ }
+ 
+ U_BOOT_CMD(
+Index: git/common/cli.c
+===================================================================
+--- git.orig/common/cli.c
++++ git/common/cli.c
+@@ -131,7 +131,7 @@ int run_command_list(const char *cmd, in
+ #if defined(CONFIG_CMD_RUN)
+ int do_run(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+ {
+-	int i;
++	int i, ret;
+ 
+ 	if (argc < 2)
+ 		return CMD_RET_USAGE;
+@@ -145,8 +145,9 @@ int do_run(struct cmd_tbl *cmdtp, int fl
+ 			return 1;
+ 		}
+ 
+-		if (run_command(arg, flag | CMD_FLAG_ENV) != 0)
+-			return 1;
++		ret = run_command(arg, flag | CMD_FLAG_ENV);
++		if (ret)
++			return ret;
+ 	}
+ 	return 0;
+ }
+Index: git/common/cli_hush.c
+===================================================================
+--- git.orig/common/cli_hush.c
++++ git/common/cli_hush.c
+@@ -1902,7 +1902,7 @@ static int run_list_real(struct pipe *pi
+ 			last_return_code = -rcode - 2;
+ 			return -2;	/* exit */
+ 		}
+-		last_return_code=(rcode == 0) ? 0 : 1;
++		last_return_code = rcode;
+ #endif
+ #ifndef __U_BOOT__
+ 		pi->num_progs = save_num_progs; /* restore number of programs */
+@@ -3212,7 +3212,15 @@ static int parse_stream_outer(struct in_
+ 					printf("exit not allowed from main input shell.\n");
+ 					continue;
+ 				}
+-				break;
++				/*
++				 * DANGER
++				 * Return code -2 is special in this context,
++				 * it indicates exit from inner pipe instead
++				 * of return code itself, the return code is
++				 * stored in 'last_return_code' variable!
++				 * DANGER
++				 */
++				return -2;
+ 			}
+ 			if (code == -1)
+ 			    flag_repeat = 0;
+@@ -3249,9 +3257,9 @@ int parse_string_outer(const char *s, in
+ #endif	/* __U_BOOT__ */
+ {
+ 	struct in_str input;
++	int rcode;
+ #ifdef __U_BOOT__
+ 	char *p = NULL;
+-	int rcode;
+ 	if (!s)
+ 		return 1;
+ 	if (!*s)
+@@ -3263,11 +3271,12 @@ int parse_string_outer(const char *s, in
+ 		setup_string_in_str(&input, p);
+ 		rcode = parse_stream_outer(&input, flag);
+ 		free(p);
+-		return rcode;
++		return rcode == -2 ? last_return_code : rcode;
+ 	} else {
+ #endif
+ 	setup_string_in_str(&input, s);
+-	return parse_stream_outer(&input, flag);
++	rcode = parse_stream_outer(&input, flag);
++	return rcode == -2 ? last_return_code : rcode;
+ #ifdef __U_BOOT__
+ 	}
+ #endif
+@@ -3287,7 +3296,7 @@ int parse_file_outer(void)
+ 	setup_file_in_str(&input);
+ #endif
+ 	rcode = parse_stream_outer(&input, FLAG_PARSE_SEMICOLON);
+-	return rcode;
++	return rcode == -2 ? last_return_code : rcode;
+ }
+ 
+ #ifdef __U_BOOT__
