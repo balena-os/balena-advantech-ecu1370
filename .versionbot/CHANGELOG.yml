@@ -1,4 +1,67 @@
 - commits:
+    - subject: Update balena-yocto-scripts to 9467c78fa81511321fe952477b316e830742760c
+      hash: c865f1584e182fdec5613543787e429f0a66bd23
+      body: Update balena-yocto-scripts
+      footer:
+        Changelog-entry: Update balena-yocto-scripts to 9467c78fa81511321fe952477b316e830742760c
+        changelog-entry: Update balena-yocto-scripts to 9467c78fa81511321fe952477b316e830742760c
+      author: Self-hosted Renovate Bot
+      nested:
+        - commits:
+            - subject: Support commit tags when extracting version tag from git
+              hash: 98fec51fae4721224e64cfec52480a5f17b8e271
+              body: >
+                Git describe does not include commit tags by default, and only
+                annotated tags are shown.
+
+
+                This behaviour was fine until a recent CI issue changed the
+                types of tags used to version the repositories.
+
+
+                This commit allows supporting of both types while the CI issue
+                is investigated.
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Kyle Harding
+              nested: []
+          version: balena-yocto-scripts-1.21.8
+          title: ""
+          date: 2024-04-29T17:17:30.203Z
+    - subject: "u-boot-imx: fix return value propagation out of environment scripts"
+      hash: 4ebf4d431ca8ddb88c88be80c296294ac1d65871
+      body: >
+        This applies
+        https://lists.denx.de/pipermail/u-boot/2022-December/502472.html
+
+
+        This fixes u-boot not getting out of the loop at
+
+        https://github.com/balena-os/meta-balena/blob/master/meta-balena-common/recipes-bsp/u-boot/patches/env_resin.h#L120
+
+        thus avoiding the board to boot from the flasher image from the SD card
+
+        after it was initially flashed with Balena OS.
+      footer:
+        Changelog-entry: "u-boot-imx: fix return value propagation out of environment scripts"
+        changelog-entry: "u-boot-imx: fix return value propagation out of environment scripts"
+        Signed-off-by: Lisandro Pérez Meyer <lpmeyer@ics.com>
+        signed-off-by: Lisandro Pérez Meyer <lpmeyer@ics.com>
+      author: Lisandro Pérez Meyer
+      nested: []
+    - subject: Update layers/meta-balena to f212a46b75701da1ad174eaca183c5b9f55075ec
+      hash: 338cf183dff164dbd6d26902ee2b84d44f383936
+      body: Update layers/meta-balena
+      footer:
+        Changelog-entry: Update layers/meta-balena to f212a46b75701da1ad174eaca183c5b9f55075ec
+        changelog-entry: Update layers/meta-balena to f212a46b75701da1ad174eaca183c5b9f55075ec
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 5.3.2
+  title: ""
+  date: 2024-04-29T20:12:59.872Z
+- commits:
     - subject: Update layers/meta-balena to 2e58bc5bb95af8ab7f27a3943ebb34761424445c
       hash: b540ed3bd49e3e1114640f8969dbccee7fb7e7b8
       body: Update layers/meta-balena
