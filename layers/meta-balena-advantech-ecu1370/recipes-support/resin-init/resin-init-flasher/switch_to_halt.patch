@@ -14,7 +14,7 @@ Index: 1.0-r2/resin-init-flasher
 -    shutdown -h now
 +    # Turn LP3 on, indicating we finished.
 +    gpioset 4 5=1
-+    halt
++    systemctl suspend
  elif command -v reboot; then
      info "Rebooting..."
      reboot -f
