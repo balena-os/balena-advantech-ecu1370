@@ -1,4 +1,24 @@
 - commits:
+    - subject: Get the board to enter suspend mode at the end of flashing
+      hash: cb4b8e550d9fbe8e10157f24ba5dccb2c429a61c
+      body: |
+        The watchdog timer will reboot the board after 128 seconds even after
+        a halt and this is problematic when using this board as a DUT in an
+        autokit setup, so let's instead put the board in suspend mode which
+        will also disable the watchdog. Going in suspend mode makes the ethernet
+        carrier disabled as expected so the autokit worker will now correctly
+        detect that the DUT has been successfully provisioned.
+      footer:
+        Changelog-entry: Get the board to enter suspend mode at the end of flashing
+        changelog-entry: Get the board to enter suspend mode at the end of flashing
+        Signed-off-by: Florin Sarbu <florin@balena.io>
+        signed-off-by: Florin Sarbu <florin@balena.io>
+      author: Florin Sarbu
+      nested: []
+  version: 5.3.6+rev1
+  title: ""
+  date: 2024-05-21T09:33:29.842Z
+- commits:
     - subject: Update layers/meta-balena to c7d68bb9a14aba972c692212dd41264f78527c38
       hash: 464719ad73cf3f509a64d8f0c465a4dc27b8bf7f
       body: Update layers/meta-balena

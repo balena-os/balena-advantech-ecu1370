@@ -1,6 +1,11 @@
 # v2.105.10
 ## (2022-10-13)
 
+# v5.3.6+rev1
+## (2024-05-21)
+
+* Get the board to enter suspend mode at the end of flashing [Florin Sarbu]
+
 # v5.3.6
 ## (2024-05-20)
 
