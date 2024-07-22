@@ -1,0 +1,5 @@
+os_helpers_shutdown() {
+	# Turn LP3 on, indicating we finished.
+	gpioset 4 5=1
+	systemctl suspend
+}
